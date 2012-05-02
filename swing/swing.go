@@ -1,75 +1,77 @@
-// Adapted with permission from code by Peter Luschny
-// Copyright 2012 Sonia Keys
+// Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
+// Package swing implements efficient generation of swinging factorials.
 package swing
 
 import (
 	"math/big"
 
-	"github.com/soniakeys/integer/prime"
+	"github.com/soniakeys/integer/prime/sieve"
 	"github.com/soniakeys/integer/xmath"
 )
 
+// SwingingFactorial computes n≀, OEIS A056040.
+//
+// Result is computed in z, replacing the value of z.  z is returned.
+func SwingingFactorial(z *big.Int, n uint) *big.Int {
+	return New(n).SwingingFactorial(z, n)
+}
+
+// Swing type is useful for generating multiple swinging factorials
+// after generating underlying prime sieve just once.
 type Swing struct {
-	Primes  *prime.Primes
+	Sieve *sieve.Sieve
+	// factors holds intermediate results.  It grows as needed and
+	// is maintained as a member to avoid repeated reallocation.
 	factors []uint64
 }
 
+// New is a constructor that generates the underlying prime sieve.
+// (If you have a sieve already, you can just assign the Sieve member of
+// a zero value Swing object.)
 func New(n uint) *Swing {
-	ps := new(Swing)
-	ps.Primes = prime.MakePrimes(uint64(n))
-
-	if n >= uint(len(SmallOdd)) {
-		ps.factors = make([]uint64, n)
-	}
-
-	return ps
+	return &Swing{Sieve: sieve.New(uint64(n))}
 }
 
-func (ps *Swing) swing(m uint) *big.Int {
-	if uint64(m) > ps.Primes.SieveLen {
+// SwingingFactorial member computes n≀ on a Swing object.
+func (ps *Swing) SwingingFactorial(z *big.Int, n uint) *big.Int {
+	if uint64(n) > ps.Sieve.Len {
 		return nil
 	}
-	r := ps.OddSwing(m)
-	return r.Lsh(r, xmath.BitCount(uint64(m)))
+	return z.Lsh(ps.OddSwing(z, n), xmath.BitCount(uint64(n>>1)))
 }
 
-func (ps *Swing) OddSwing(k uint) *big.Int {
-	if k < uint(len(SmallOdd)) {
-		return big.NewInt(SmallOdd[k])
+func (ps *Swing) OddSwing(z *big.Int, k uint) *big.Int {
+	if k < uint(len(SmallOddSwing)) {
+		return z.SetInt64(SmallOddSwing[k])
 	}
-
 	rootK := xmath.FloorSqrt(k)
-	var i int
-
-	ps.Primes.Iterator(3, uint64(rootK), func(p uint64) {
+	ps.factors = ps.factors[:0] // reset length, reusing existing capacity
+	ps.Sieve.Iterate(3, uint64(rootK), func(p uint64) (terminate bool) {
 		q := uint64(k) / p
 		for q > 0 {
 			if q&1 == 1 {
-				ps.factors[i] = p
-				i++
+				ps.factors = append(ps.factors, p)
 			}
 			q /= p
 		}
+		return
 	})
-
-	ps.Primes.Iterator(uint64(rootK+1), uint64(k/3), func(p uint64) {
+	ps.Sieve.Iterate(uint64(rootK+1), uint64(k/3), func(p uint64) (term bool) {
 		if (uint64(k) / p & 1) == 1 {
-			ps.factors[i] = p
-			i++
+			ps.factors = append(ps.factors, p)
 		}
+		return
 	})
-
-	ps.Primes.Iterator(uint64(k/2+1), uint64(k), func(p uint64) {
-		ps.factors[i] = p
-		i++
+	ps.Sieve.Iterate(uint64(k/2+1), uint64(k), func(p uint64) (term bool) {
+		ps.factors = append(ps.factors, p)
+		return
 	})
-
-	return xmath.Product(ps.factors[0:i])
+	return xmath.Product(z, ps.factors)
 }
 
-var SmallOdd = []int64{1, 1, 1, 3, 3, 15, 5,
+var SmallOddSwing = []int64{1, 1, 1, 3, 3, 15, 5,
 	35, 35, 315, 63, 693, 231, 3003, 429, 6435, 6435,
 	109395, 12155, 230945, 46189, 969969, 88179, 2028117, 676039,
 	16900975, 1300075, 35102025, 5014575, 145422675, 9694845,

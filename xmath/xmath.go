@@ -1,29 +1,40 @@
-// Adapted with permission from code by Peter Luschny
-// Copyright 2012 Sonia Keys
+// Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
+// xmath contains functions useful for integer calculations.
 package xmath
 
 import "math/big"
 
-const productSerialThreshold = 24
+// ProductSerialTreshold is the recursion cutoff.
+//
+// It can be tuned for best performance.
+var ProductSerialThreshold = 24
 
-func Product(seq []uint64) *big.Int {
-	if len(seq) <= productSerialThreshold {
-		var b big.Int
-		sprod := big.NewInt(int64(seq[0]))
-		for _, s := range seq[1:] {
-			b.SetInt64(int64(s))
-			sprod.Mul(sprod, &b)
+// Product computes product of numbers in seq.
+//
+// It recursively partions large lists to reduce the number of multiplies.
+// It computes the result in z to avoid unnecessary allocation.
+// It returns z for convenience in chaining expressions.
+func Product(z *big.Int, seq []uint64) *big.Int {
+	if len(seq) <= ProductSerialThreshold {
+		if len(seq) == 0 {
+			return z.SetInt64(1)
 		}
-		return sprod
+		var b big.Int
+		z.SetInt64(int64(seq[0]))
+		for _, s := range seq[1:] {
+			z.Mul(z, b.SetInt64(int64(s)))
+		}
+		return z
 	}
 	halfLen := len(seq) / 2
-	lprod := Product(seq[0:halfLen])
-	rprod := Product(seq[halfLen:])
-	return lprod.Mul(lprod, rprod)
+	lprod := Product(z, seq[0:halfLen])
+	rprod := Product(new(big.Int), seq[halfLen:])
+	return z.Mul(lprod, rprod)
 }
 
+// BitCount returns number of 1 bits in w.
 func BitCount(w uint64) uint {
 	const (
 		ff    = 1<<64 - 1
@@ -38,13 +49,32 @@ func BitCount(w uint64) uint {
 	return uint(w * maskp >> 56)
 }
 
+// Log2 returns the integer log base 2 of x.
+//
+// If x is 0, the result is the maximum value of a uint.
+func Log2(x uint) (n uint) {
+	for ; x > 0xff; x >>= 8 {
+		n += 8
+	}
+	for ; x > 0; x >>= 1 {
+		n++
+	}
+	return n - 1
+}
+
+// FloorSqrt is an integer square root function.
 func FloorSqrt(n uint) uint {
-	for b := n; ; {
-		a := b
+	b := (n + 1) / 2
+	if b >= n {
+		return n
+	}
+	a := b
+	for {
 		b = (n/a + a) / 2
 		if b >= a {
-			return a
+			break
 		}
+		a = b
 	}
-	panic("unreachable")
+	return a
 }
