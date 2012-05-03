@@ -6,6 +6,8 @@ Prime
 -----
 Ways of computing prime numbers, [OEIS A000040.](http://oeis.org/A000040)
 -  Sieve, a sieve of Eratosthenese.
+-  PQueue, a priority queue.
+-  SPRP, a strong probable-prime test.
 
 Swing
 -----
