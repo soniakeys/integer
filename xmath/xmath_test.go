@@ -49,214 +49,6 @@ func TestProduct(t *testing.T) {
 	}
 }
 
-func BenchmarkProductM10(b *testing.B) {
-	xmath.ProductSerialThreshold -= 10
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 10
-}
-
-func BenchmarkProductM9(b *testing.B) {
-	xmath.ProductSerialThreshold -= 9
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 9
-}
-
-func BenchmarkProductM8(b *testing.B) {
-	xmath.ProductSerialThreshold -= 8
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 8
-}
-
-func BenchmarkProductM7(b *testing.B) {
-	xmath.ProductSerialThreshold -= 7
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 7
-}
-
-func BenchmarkProductM6(b *testing.B) {
-	xmath.ProductSerialThreshold -= 6
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 6
-}
-
-func BenchmarkProductM5(b *testing.B) {
-	xmath.ProductSerialThreshold -= 5
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 5
-}
-
-func BenchmarkProductM4(b *testing.B) {
-	xmath.ProductSerialThreshold -= 4
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 4
-}
-
-func BenchmarkProductM3(b *testing.B) {
-	xmath.ProductSerialThreshold -= 3
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 3
-}
-
-func BenchmarkProductM2(b *testing.B) {
-	xmath.ProductSerialThreshold -= 2
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold += 2
-}
-
-func BenchmarkProductM1(b *testing.B) {
-	xmath.ProductSerialThreshold--
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold++
-}
-
-func BenchmarkProductP0(b *testing.B) {
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-}
-
-func BenchmarkProductP1(b *testing.B) {
-	xmath.ProductSerialThreshold++
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold--
-}
-
-func BenchmarkProductP2(b *testing.B) {
-	xmath.ProductSerialThreshold += 2
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 2
-}
-
-func BenchmarkProductP3(b *testing.B) {
-	xmath.ProductSerialThreshold += 3
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 3
-}
-
-func BenchmarkProductP4(b *testing.B) {
-	xmath.ProductSerialThreshold += 4
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 4
-}
-
-func BenchmarkProductP5(b *testing.B) {
-	xmath.ProductSerialThreshold += 5
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 5
-}
-
-func BenchmarkProductP6(b *testing.B) {
-	xmath.ProductSerialThreshold += 6
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 6
-}
-
-func BenchmarkProductP7(b *testing.B) {
-	xmath.ProductSerialThreshold += 7
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 7
-}
-
-func BenchmarkProductP8(b *testing.B) {
-	xmath.ProductSerialThreshold += 8
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 8
-}
-
-func BenchmarkProductP9(b *testing.B) {
-	xmath.ProductSerialThreshold += 9
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 9
-}
-
-func BenchmarkProductP10(b *testing.B) {
-	xmath.ProductSerialThreshold += 10
-	b.Log("ProductSerialThreshold:", xmath.ProductSerialThreshold)
-	p := new(big.Int)
-	for i := 0; i < b.N; i++ {
-		xmath.Product(p, s)
-	}
-	xmath.ProductSerialThreshold -= 10
-}
-
 func TestBitCount64(t *testing.T) {
 	for _, tc := range s {
 		// sequential algorithm
@@ -307,6 +99,23 @@ func TestFloorSqrt(t *testing.T) {
 	for _, tc := range tcs {
 		if s := xmath.FloorSqrt(tc.n); s != tc.s {
 			t.Errorf("FloorSqrt(%d) expected to be %d.  got %d", tc.n, tc.s, s)
+		}
+	}
+}
+
+func TestTrailingZeros32(t *testing.T) {
+	for _, tc := range s {
+		tc32 := uint32(tc)
+		// seqential algorithm
+		var tz byte
+		if tc32 != 0 {
+			for nz := tc32; nz & 1 == 0; nz >>= 1 {
+				tz++
+			}
+		}
+		// test
+		if cz := xmath.TrailingZeros32(tc32); cz != tz {
+			t.Errorf("TrailingZero32(%x) expected %d, got %d", tc32, tz, cz)
 		}
 	}
 }

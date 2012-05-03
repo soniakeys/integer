@@ -59,30 +59,40 @@ func TestSieve(t *testing.T) {
 
 func Benchmark1e4(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sieve.New(1e4)
+		sieve.New(1e4).Iterate(1, 1e4, func(uint64) (terminate bool) {
+            return
+        })
 	}
 }
 
 func Benchmark1e5(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sieve.New(1e5)
+		sieve.New(1e5).Iterate(1, 1e5, func(uint64) (terminate bool) {
+            return
+        })
 	}
 }
 
 func Benchmark1e6(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sieve.New(1e6)
+		sieve.New(1e6).Iterate(1, 1e6, func(uint64) (terminate bool) {
+            return
+        })
 	}
 }
 
 func Benchmark1e7(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sieve.New(1e7)
+		sieve.New(1e7).Iterate(1, 1e7, func(uint64) (terminate bool) {
+            return
+        })
 	}
 }
 
 func Benchmark1e8(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		sieve.New(1e8)
+		sieve.New(1e8).Iterate(1, 1e8, func(uint64) (terminate bool) {
+            return
+        })
 	}
 }

@@ -49,3 +49,39 @@ func TestIterate(t *testing.T) {
 		})
 	}
 }
+
+func Benchmark1e4(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        sprp.New().Iterate(1, 1e4, func(uint64) (terminate bool) {
+            return
+        })
+    }
+}
+
+
+func Benchmark1e5(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        sprp.New().Iterate(1, 1e5, func(uint64) (terminate bool) {
+            return
+        })
+    }
+}
+
+
+func Benchmark1e6(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        sprp.New().Iterate(1, 1e6, func(uint64) (terminate bool) {
+            return
+        })
+    }
+}
+
+
+func Benchmark1e7(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        sprp.New().Iterate(1, 1e7, func(uint64) (terminate bool) {
+            return
+        })
+    }
+}
+
