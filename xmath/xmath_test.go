@@ -257,7 +257,7 @@ func BenchmarkProductP10(b *testing.B) {
 	xmath.ProductSerialThreshold -= 10
 }
 
-func TestBitCount(t *testing.T) {
+func TestBitCount64(t *testing.T) {
 	for _, tc := range s {
 		// sequential algorithm
 		var sc uint
@@ -267,7 +267,7 @@ func TestBitCount(t *testing.T) {
 			}
 		}
 		// test
-		if bc := xmath.BitCount(tc); bc != sc {
+		if bc := xmath.BitCount64(tc); bc != sc {
 			t.Fatalf("Wrong bit count for %x. Expected %d, got %d", tc, sc, bc)
 		}
 	}

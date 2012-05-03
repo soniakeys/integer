@@ -5,7 +5,16 @@
 //
 // The fundamental algorithm is by Eratosthenes (276-194 BC).  Representation
 // is with bits, and factors of 2 and 3 are excluded with a wheel method.
+// Compared to SPRP and priority queue methods, this is relatively speedy,
+// but does have a space and time overhead before any primes can be returned.
 package sieve
+
+import (
+	"math"
+
+	"github.com/soniakeys/integer/prime"
+	"github.com/soniakeys/integer/xmath"
+)
 
 // word size dependent constants
 const (
@@ -20,23 +29,45 @@ type Sieve struct {
 	isComposite []uint32
 }
 
+func (ps *Sieve) Limit() uint64 {
+	return ps.Len
+}
+
 var smallComposites = []uint32{1762821248, 848611808, 3299549660, 2510511646}
 var smallCompositeLimit uint64 = 3 * bitsPerInt * uint64(len(smallComposites))
+var smallPiLimit uint64
+
+func init() {
+	smallPiLimit = 2
+	for _, w := range smallComposites {
+		smallPiLimit += uint64(32 - xmath.BitCount32(w))
+	}
+}
 
 // New is the Sieve constructor, completing the sieve operation.
-func New(n uint64) (ps *Sieve) {
+func New(n uint64) *Sieve {
+    return new(Sieve).Init(n)
+}
+
+// Init initializes the Sieve object by allocating memory and running
+// the sieve algorithm.  This will find prime numbers less than
+// or equal to the parameter n.
+//
+// If n <= 0, the passed object is set to the zero object.
+//
+// The function returns its reciever.
+func (ps *Sieve) Init(n uint64) *Sieve {
 	// Prime number sieve, Eratosthenes (276-194 b.t. )
 	// This implementation considers only multiples of primes
 	// greater than 3, so the smallest value has to be mapped to 5.
 	// Note: There is no multiplication operation in this function
 	// and *no call to a sqrt* function.
 
-	ps = new(Sieve)
 	ps.Len = n
 
 	if n <= smallCompositeLimit {
 		ps.isComposite = smallComposites
-		return
+		return ps
 	}
 
 	ps.isComposite = make([]uint32, n/(3*bitsPerInt)+1)
@@ -77,23 +108,16 @@ func New(n uint64) (ps *Sieve) {
 			s2 = p1
 		}
 	}
-	return
+	return ps
 }
 
-// Visitor function passed to Iterate method of Sieve.
-//
-// A visitor function should return false to continue iteration.
-// Iterate interprets a true result from the visitor function as a request
-// to terminate iteration.
-type Visitor func(prime uint64) (terminate bool)
-
-// Iterator iterates over primes betwing min and max inclusive, and calls
+// Iterate iterates over primes betwing min and max inclusive, and calls
 // the visitor function for each prime.
 //
 // Iterate returns false if max > sieve size, otherwise it returns true.
 // It returns true even if no primes happen to be between the specified
 // bounds or if the visitor function terminates iteration early.
-func (ps *Sieve) Iterate(min, max uint64, visitor Visitor) bool {
+func (ps *Sieve) Iterate(min, max uint64, visitor prime.Visitor) bool {
 	// isComposite[0] ... isComposite[n] includes
 	// 5 <= primes numbers <= 96*(n+1)+1
 
@@ -145,3 +169,20 @@ func (ps *Sieve) Iterate(min, max uint64, visitor Visitor) bool {
 	}
 	return true
 }
+
+// InitPi similar to Init, but parameter is a minimum number of
+// prime numbers to find rather than a maximum value of primes.
+//    
+// Mathematically, π(n), is the prime counting function, the number of primes
+// less than or equal to n.  InitPi selects a bound for n, such that π(n) ≥ pn.
+func (ps *Sieve) InitPi(pn uint64) { 
+    var n uint64
+    if pn <= smallPiLimit {
+        n = smallCompositeLimit
+    } else {
+        ln := math.Log(float64(pn))
+        n = pn * uint64(ln+math.Log(ln))
+    }
+    ps.Init(n) 
+}
+

@@ -34,8 +34,23 @@ func Product(z *big.Int, seq []uint64) *big.Int {
 	return z.Mul(lprod, rprod)
 }
 
-// BitCount returns number of 1 bits in w.
-func BitCount(w uint64) uint {
+// BitCount32 returns the number of 1s in a uint32.
+func BitCount32(w uint32) uint {
+    const (
+        ff    = 1<<32 - 1
+        mask1 = ff / 3
+        mask3 = ff / 5
+        maskf = ff / 17
+        maskp = ff / 255
+    )
+    w -= w >> 1 & mask1
+    w = w&mask3 + w>>2&mask3
+    w = (w + w>>4) & maskf
+    return uint(w * maskp >> 24)
+}
+
+// BitCount64 returns the number of 1s in a uint64.
+func BitCount64(w uint64) uint {
 	const (
 		ff    = 1<<64 - 1
 		mask1 = ff / 3

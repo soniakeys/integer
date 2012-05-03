@@ -21,6 +21,28 @@ var tcs = []struct {
 	{100000000, 5761455},
 }
 
+// a few tests on the zero object
+func TestZero(t *testing.T) {
+	// test Limit() on zero object
+	var s sieve.Sieve
+	n := s.Limit()
+	if n != 0 {
+		t.Error("zero object Limit() = ", n)
+	}
+	// test Iterate succeeds on zero object
+	if !s.Iterate(0, 0, func(uint64) bool {
+		return false
+	}) {
+		t.Error("Iterate fails on zero object")
+	}
+	// test Iterate fails on request > limit
+	if s.Iterate(0, 1, func(uint64) bool {
+		return false
+	}) {
+		t.Error("Iterate attempts request > limit on zero object")
+	}
+}
+
 func TestSieve(t *testing.T) {
 	for _, tc := range tcs {
 		var count uint64

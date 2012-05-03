@@ -39,7 +39,7 @@ func (ps *Swing) SwingingFactorial(z *big.Int, n uint) *big.Int {
 	if uint64(n) > ps.Sieve.Len {
 		return nil
 	}
-	return z.Lsh(ps.OddSwing(z, n), xmath.BitCount(uint64(n>>1)))
+	return z.Lsh(ps.OddSwing(z, n), xmath.BitCount32(uint32(n>>1)))
 }
 
 func (ps *Swing) OddSwing(z *big.Int, k uint) *big.Int {

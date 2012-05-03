@@ -37,5 +37,5 @@ func FactorialS(z *big.Int, ps *swing.Swing, n uint) *big.Int {
 		var os big.Int
 		return z.Mul(z.Mul(z, z), ps.OddSwing(&os, n))
 	}
-	return z.Lsh(oddFactorial(z, n), n-xmath.BitCount(uint64(n)))
+	return z.Lsh(oddFactorial(z, n), n-xmath.BitCount32(uint32(n)))
 }

@@ -62,7 +62,7 @@ func DoubleFactorialS(z *big.Int, p *swing.Swing, n uint) *big.Int {
 		oddDoubleFactorial(nn)
 	}
 	if nEven {
-		z.Lsh(z, n-xmath.BitCount(uint64(n)))
+		z.Lsh(z, n-xmath.BitCount32(uint32(n)))
 	}
 	return z
 }
