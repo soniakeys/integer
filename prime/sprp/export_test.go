@@ -31,19 +31,21 @@ func TestIterate(t *testing.T) {
 		t.Error("Iterate returned false on early termination.")
 	}
 
-	// some primes across the base set 0/1 boundary
+	// some primes across the base set boundaries
 	// source: prime pages
-	b01 := []uint64{1373557, 1373563, 1373591, 1373611, 1373627,
-		1373639, 1373677, 1373683, 1373689, 1373717,
-		1373761, 1373777, 1373789, 1373803, 1373819}
+	b12 := []uint64{5309, 5323, 5333, 5347}                        // 1-2 bases
+	b23 := []uint64{316349261, 316349279, 316349329, 316349333}    // 2-3 bases	
+	b32 := []uint64{1<<32 - 99, 1<<32 - 65, 1<<32 - 17, 1<<32 - 5} // near the top
 
 	// check that they are right
-	i = 0
-	s.Iterate(b01[0], b01[len(b01)-1], func(prime uint64) bool {
-		if prime != b01[i] {
-			t.Fatal("Incorrect prime.  Expected", b01[i], "got", prime)
-		}
-		i++
-		return false
-	})
+	for _, p := range [][]uint64{b12, b23, b32} {
+		i = 0
+		s.Iterate(p[0], p[len(p)-1], func(prime uint64) bool {
+			if prime != p[i] {
+				t.Fatal("Incorrect prime.  Expected", p[i], "got", prime)
+			}
+			i++
+			return false
+		})
+	}
 }

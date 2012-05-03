@@ -23,6 +23,7 @@ type SPRP struct {
 }
 
 // reference: http://miller-rabin.appspot.com/
+// limit is the first composite which the bases say is probably prime.
 var baseSets = []struct {
 	limit uint32
 	bases []uint32
@@ -46,7 +47,7 @@ func New() *SPRP {
 func (m *SPRP) resetLimit(n uint32) {
 	m.bx = 0
 	m.limit = baseSets[0].limit
-	for n > m.limit {
+	for n >= m.limit {
 		m.bx++
 		m.limit = baseSets[m.bx].limit
 	}
@@ -88,7 +89,7 @@ func (m *SPRP) Iterate(min, max uint64, visitor prime.Visitor) bool {
 
 // Prime returns true if n is prime.
 func (m *SPRP) Prime(n uint32) bool {
-	for n > m.limit {
+	for n >= m.limit {
 		m.bx++
 		m.limit = baseSets[m.bx].limit
 	}
