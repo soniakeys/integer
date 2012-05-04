@@ -25,12 +25,12 @@ const (
 
 // Sieve type holds a completed sieve.
 type Sieve struct {
-	Len         uint64
+	Lim         uint64
 	isComposite []uint32
 }
 
 func (ps *Sieve) Limit() uint64 {
-	return ps.Len
+	return ps.Lim
 }
 
 var smallComposites = []uint32{1762821248, 848611808, 3299549660, 2510511646}
@@ -46,7 +46,7 @@ func init() {
 
 // New is the Sieve constructor, completing the sieve operation.
 func New(n uint64) *Sieve {
-    return new(Sieve).Init(n)
+	return new(Sieve).Init(n)
 }
 
 // Init initializes the Sieve object by allocating memory and running
@@ -63,7 +63,7 @@ func (ps *Sieve) Init(n uint64) *Sieve {
 	// Note: There is no multiplication operation in this function
 	// and *no call to a sqrt* function.
 
-	ps.Len = n
+	ps.Lim = n
 
 	if n <= smallCompositeLimit {
 		ps.isComposite = smallComposites
@@ -122,7 +122,7 @@ func (ps *Sieve) Iterate(min, max uint64, visitor prime.Visitor) bool {
 	// 5 <= primes numbers <= 96*(n+1)+1
 
 	switch {
-	case max > ps.Len:
+	case max > ps.Lim:
 		return false
 	case max < 2:
 		return true
@@ -175,14 +175,13 @@ func (ps *Sieve) Iterate(min, max uint64, visitor prime.Visitor) bool {
 //    
 // Mathematically, π(n), is the prime counting function, the number of primes
 // less than or equal to n.  InitPi selects a bound for n, such that π(n) ≥ pn.
-func (ps *Sieve) InitPi(pn uint64) { 
-    var n uint64
-    if pn <= smallPiLimit {
-        n = smallCompositeLimit
-    } else {
-        ln := math.Log(float64(pn))
-        n = pn * uint64(ln+math.Log(ln))
-    }
-    ps.Init(n) 
+func (ps *Sieve) InitPi(pn uint64) {
+	var n uint64
+	if pn <= smallPiLimit {
+		n = smallCompositeLimit
+	} else {
+		ln := math.Log(float64(pn))
+		n = pn * uint64(ln+math.Log(ln))
+	}
+	ps.Init(n)
 }
-

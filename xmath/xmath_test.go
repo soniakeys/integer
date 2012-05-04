@@ -109,7 +109,7 @@ func TestTrailingZeros32(t *testing.T) {
 		// seqential algorithm
 		var tz byte
 		if tc32 != 0 {
-			for nz := tc32; nz & 1 == 0; nz >>= 1 {
+			for nz := tc32; nz&1 == 0; nz >>= 1 {
 				tz++
 			}
 		}

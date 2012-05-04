@@ -31,7 +31,7 @@ bad:
 	t.Log("valid:", s.isComposite)
 	t.Log("found:", sc)
 	t.Fail()
-} 
+}
 
 // Some more tests.
 // Nothing here should invoke the Eratosthenes algorithm.
@@ -67,32 +67,32 @@ func TestSmall(t *testing.T) {
 
 	// test InitPi on boundary case of small np
 	s.InitPi(uint64(len(smallPrimes)))
-	if s.Len != n {
+	if s.Lim != n {
 		t.Error("SievePi didn't seem to work on small np")
 	}
 
-    // asking for one more prime than was precomputed should trigger sieve.
-    s.InitPi(1 + uint64(len(smallPrimes)))
-    if len(s.isComposite) <= len(smallComposites) {
-        t.Fatal("sieve didn't seem to work", len(s.isComposite), len(smallComposites))
-    }
+	// asking for one more prime than was precomputed should trigger sieve.
+	s.InitPi(1 + uint64(len(smallPrimes)))
+	if len(s.isComposite) <= len(smallComposites) {
+		t.Fatal("sieve didn't seem to work", len(s.isComposite), len(smallComposites))
+	}
 
-    // check that primes from sieve match precomputed primes from
-    // previous test.  test IterateFunc early termination feature
-    // in the process.
-    var j uint64
-    ok := s.Iterate(0, s.Len, func(prime uint64) bool {
-        if int(j) == len(smallPrimes) {
-            return true
-        }
-        if prime != smallPrimes[j] {
-            t.Fatalf("sieve failed.  expected %d for prime[%d].  got %d.\n",
-                smallPrimes[j], j, prime)
-        }
-        j++
-        return false
-    })
-    if !ok {
-        t.Error("Iterate returned false on early termination.")
-    }
+	// check that primes from sieve match precomputed primes from
+	// previous test.  test IterateFunc early termination feature
+	// in the process.
+	var j uint64
+	ok := s.Iterate(0, s.Lim, func(prime uint64) bool {
+		if int(j) == len(smallPrimes) {
+			return true
+		}
+		if prime != smallPrimes[j] {
+			t.Fatalf("sieve failed.  expected %d for prime[%d].  got %d.\n",
+				smallPrimes[j], j, prime)
+		}
+		j++
+		return false
+	})
+	if !ok {
+		t.Error("Iterate returned false on early termination.")
+	}
 }

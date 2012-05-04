@@ -36,17 +36,17 @@ func Product(z *big.Int, seq []uint64) *big.Int {
 
 // BitCount32 returns the number of 1s in a uint32.
 func BitCount32(w uint32) uint {
-    const (
-        ff    = 1<<32 - 1
-        mask1 = ff / 3
-        mask3 = ff / 5
-        maskf = ff / 17
-        maskp = ff / 255
-    )
-    w -= w >> 1 & mask1
-    w = w&mask3 + w>>2&mask3
-    w = (w + w>>4) & maskf
-    return uint(w * maskp >> 24)
+	const (
+		ff    = 1<<32 - 1
+		mask1 = ff / 3
+		mask3 = ff / 5
+		maskf = ff / 17
+		maskp = ff / 255
+	)
+	w -= w >> 1 & mask1
+	w = w&mask3 + w>>2&mask3
+	w = (w + w>>4) & maskf
+	return uint(w * maskp >> 24)
 }
 
 // BitCount64 returns the number of 1s in a uint64.
@@ -99,14 +99,13 @@ const deBruijn32Multiple = 0x077CB531
 const deBruijn32Shift = 27
 
 var deBruijn32Bits = []byte{
-    0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8,
-    31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9,
+	0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8,
+	31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9,
 }
 
 // TrailingZeros32 returns the number of trailing 0 bits in v.
 //
 // If v is 0, it returns 0.
 func TrailingZeros32(v uint32) byte {
-    return deBruijn32Bits[v&-v*deBruijn32Multiple>>deBruijn32Shift]
+	return deBruijn32Bits[v&-v*deBruijn32Multiple>>deBruijn32Shift]
 }
-

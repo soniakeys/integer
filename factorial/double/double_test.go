@@ -4,8 +4,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/soniakeys/integer/swing"
 	"github.com/soniakeys/integer/factorial/double"
+	"github.com/soniakeys/integer/swing"
 )
 
 func TestDoubleFactorial(t *testing.T) {
