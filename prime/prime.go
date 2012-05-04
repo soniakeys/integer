@@ -1,4 +1,4 @@
-// Copyright 2012 Peter Luschny, Sonia Keys
+// Copyright 2012 Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
 // Package prime contains a variety of prime number generators and
