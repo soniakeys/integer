@@ -9,7 +9,7 @@ import "math/big"
 // ProductSerialTreshold is the recursion cutoff.
 //
 // It can be tuned for best performance.
-var ProductSerialThreshold = 24
+var ProductSerialThreshold = 40
 
 // Product computes product of numbers in seq.
 //
