@@ -36,7 +36,7 @@ func New(n uint) *Swing {
 
 // SwingingFactorial member computes n≀ on a Swing object.
 func (ps *Swing) SwingingFactorial(z *big.Int, n uint) *big.Int {
-	if uint64(n) > ps.Sieve.Len {
+	if uint64(n) > ps.Sieve.Lim {
 		return nil
 	}
 	return z.Lsh(ps.OddSwing(z, n), xmath.BitCount32(uint32(n>>1)))

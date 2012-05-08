@@ -20,7 +20,7 @@ func TestBoundaryCases(t *testing.T) {
 
 	s := sprp.New()
 	for _, p := range [][]uint64{b12, b23, b32} {
-		i = 0
+		i := 0
 		s.Iterate(p[0], p[len(p)-1], func(prime uint64) bool {
 			if prime != p[i] {
 				t.Fatal("Incorrect prime.  Expected", p[i], "got", prime)

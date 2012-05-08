@@ -25,7 +25,7 @@ func Binomial(z *big.Int, n, k uint) *big.Int {
 // sieve p.  BinomialS returns nil if p is too small.  Otherwise it leaves
 // the result in z, replacing the existing value of z, and returning z.
 func BinomialS(z *big.Int, p *sieve.Sieve, n, k uint) *big.Int {
-	if uint64(n) > p.Len {
+	if uint64(n) > p.Lim {
 		return nil
 	}
 	if k > n {

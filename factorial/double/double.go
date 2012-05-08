@@ -42,7 +42,7 @@ func DoubleFactorialS(z *big.Int, p *swing.Swing, n uint) *big.Int {
 			nn = n + 1
 		}
 
-		if uint64(nn) > p.Sieve.Len && nn > uint(len(swing.SmallOddFactorial)) {
+		if uint64(nn) > p.Sieve.Lim && nn > uint(len(swing.SmallOddFactorial)) {
 			return nil
 		}
 

@@ -103,6 +103,70 @@ func TestFloorSqrt(t *testing.T) {
 	}
 }
 
+func TestFloorSqrt32(t *testing.T) {
+	tcs := []struct {
+		n, s uint32
+	}{
+		{0, 0},
+		{1, 1},
+		{2, 1},
+		{3, 1},
+		{4, 2},
+		{5, 2},
+		{7, 2},
+		{1<<20 - 1, 1<<10 - 1},
+		{1 << 20, 1 << 10},
+		{1<<20 + 1, 1 << 10},
+		{math.MaxUint32 - 1, math.MaxUint16},
+	}
+	for _, tc := range tcs {
+		if s := xmath.FloorSqrt32(tc.n); s != tc.s {
+			t.Errorf("FloorSqrt(%d) expected to be %d.  got %d", tc.n, tc.s, s)
+		}
+	}
+}
+
+func TestFloorSqrt64(t *testing.T) {
+	tcs := []struct {
+		n, s uint64
+	}{
+		{0, 0},
+		{1, 1},
+		{2, 1},
+		{3, 1},
+		{4, 2},
+		{5, 2},
+		{7, 2},
+		{1<<20 - 1, 1<<10 - 1},
+		{1 << 20, 1 << 10},
+		{1<<20 + 1, 1 << 10},
+		{math.MaxUint32 - 1, math.MaxUint16},
+		{math.MaxUint64 - 1, math.MaxUint32},
+	}
+	for _, tc := range tcs {
+		if s := xmath.FloorSqrt64(tc.n); s != tc.s {
+			t.Errorf("FloorSqrt64(%d) expected to be %d.  got %d", tc.n, tc.s, s)
+		}
+	}
+}
+
+func TestTrailingZeros(t *testing.T) {
+	for _, tc := range s {
+		tcu := uint(tc)
+		// seqential algorithm
+		var tz byte
+		if tcu != 0 {
+			for nz := tcu; nz&1 == 0; nz >>= 1 {
+				tz++
+			}
+		}
+		// test
+		if cz := xmath.TrailingZeros(tcu); cz != tz {
+			t.Errorf("TrailingZero(%x) expected %d, got %d", tcu, tz, cz)
+		}
+	}
+}
+
 func TestTrailingZeros32(t *testing.T) {
 	for _, tc := range s {
 		tc32 := uint32(tc)
@@ -116,6 +180,22 @@ func TestTrailingZeros32(t *testing.T) {
 		// test
 		if cz := xmath.TrailingZeros32(tc32); cz != tz {
 			t.Errorf("TrailingZero32(%x) expected %d, got %d", tc32, tz, cz)
+		}
+	}
+}
+
+func TestTrailingZeros64(t *testing.T) {
+	for _, tc := range s {
+		// seqential algorithm
+		var tz byte
+		if tc != 0 {
+			for nz := tc; nz&1 == 0; nz >>= 1 {
+				tz++
+			}
+		}
+		// test
+		if cz := xmath.TrailingZeros64(tc); cz != tz {
+			t.Errorf("TrailingZero64(%x) expected %d, got %d", tc, tz, cz)
 		}
 	}
 }
