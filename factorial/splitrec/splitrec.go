@@ -1,7 +1,7 @@
 // Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
-// Factorial by split-recursive algorithm.
+// Package splitrec computes the factorial by split-recursive algorithm.
 package splitrec
 
 import (

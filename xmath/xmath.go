@@ -1,7 +1,7 @@
 // Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
-// xmath contains functions useful for integer calculations.
+// Package xmath contains functions useful for integer calculations.
 package xmath
 
 import "math/big"

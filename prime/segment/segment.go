@@ -1,6 +1,7 @@
 // Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
+// Package segment computes prime numbers with a parallel segmented sieve.
 package segment
 
 import (

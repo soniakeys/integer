@@ -1,6 +1,7 @@
 // Copyright 2012 Peter Luschny, Sonia Keys
 // License MIT: http://www.opensource.org/licenses/MIT
 
+// Package double has an efficient algorithm for the double factorial. (n!!)
 package double
 
 import (
