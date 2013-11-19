@@ -2,6 +2,12 @@ Integer
 =======
 Various integer routines.
 
+[![Build Status](https://travis-ci.org/soniakeys/integer.png)](https://travis-ci.org/soniakeys/integer)
+
+[![GoDoc](https://godoc.org/github.com/garyburd/gddo?status.png)](http://godoc.org/github.com/soniakeys/integer)
+
+[![Go Walker](http://gowalker.org/api/v1/badge)](http://gowalker.org/github.com/soniakeys/integer)
+
 Prime
 -----
 Ways of computing prime numbers, [OEIS A000040.](http://oeis.org/A000040)
