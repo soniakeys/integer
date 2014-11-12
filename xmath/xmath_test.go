@@ -199,3 +199,42 @@ func TestTrailingZeros64(t *testing.T) {
 		}
 	}
 }
+
+func TestTrailingZerosBig(t *testing.T) {
+	t1 := func(v *big.Int, want int) {
+		if got := xmath.TrailingZerosBig(v); got != want {
+			t.Fatalf("TrailingZeroBig(0x%x) = %d, want %d", v, got, want)
+		}
+	}
+	// boundary case 0
+	t1(&big.Int{}, 0)
+	// powers of 2 up to 64
+	var v big.Int
+	for p := 0; p < 64; p++ {
+		t1(v.SetInt64(1<<uint(p)), p)
+	}
+	// some bigger powers of 2
+	one := big.NewInt(1)
+	for _, p := range []int{64, 100, 1000, 10000} {
+		t1(v.Lsh(one, uint(p)), p)
+	}
+}
+
+func TestTrailingOnesBig(t *testing.T) {
+	t1 := func(v *big.Int, want int) {
+		if got := xmath.TrailingOnesBig(v); got != want {
+			t.Fatalf("TrailingOnesBig(0x%x) = %d, want %d", v, got, want)
+		}
+	}
+	// (powers of 2 up to 64) - 1
+	// thats 0, 1, 11, 111, and so on.
+	var v big.Int
+	for p := 0; p < 64; p++ {
+		t1(v.SetInt64(1<<uint(p)-1), p)
+	}
+	// (some bigger powers of 2) - 1
+	one := big.NewInt(1)
+	for _, p := range []int{64, 100, 1000, 10000} {
+		t1(v.Sub(v.Lsh(one, uint(p)), one), p)
+	}
+}

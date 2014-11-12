@@ -160,12 +160,12 @@ func TrailingZeros32(v uint32) byte {
 
 const deBruijn64Multiple = 0x03f79d71b4ca8b09
 const deBruijn64Shift = 58
-    
+
 var deBruijn64Bits = []byte{
-    0, 1, 56, 2, 57, 49, 28, 3, 61, 58, 42, 50, 38, 29, 17, 4,
-    62, 47, 59, 36, 45, 43, 51, 22, 53, 39, 33, 30, 24, 18, 12, 5,
-    63, 55, 48, 27, 60, 41, 37, 16, 46, 35, 44, 21, 52, 32, 23, 11,
-    54, 26, 40, 15, 34, 20, 31, 10, 25, 14, 19, 9, 13, 8, 7, 6,
+	0, 1, 56, 2, 57, 49, 28, 3, 61, 58, 42, 50, 38, 29, 17, 4,
+	62, 47, 59, 36, 45, 43, 51, 22, 53, 39, 33, 30, 24, 18, 12, 5,
+	63, 55, 48, 27, 60, 41, 37, 16, 46, 35, 44, 21, 52, 32, 23, 11,
+	54, 26, 40, 15, 34, 20, 31, 10, 25, 14, 19, 9, 13, 8, 7, 6,
 }
 
 // TrailingZeros64 returns the number of trailing 0 bits in v.
@@ -173,4 +173,41 @@ var deBruijn64Bits = []byte{
 // If v is 0, it returns 0.
 func TrailingZeros64(v uint64) byte {
 	return deBruijn64Bits[v&-v*deBruijn64Multiple>>deBruijn64Shift]
+}
+
+// works for 32 and 64 anyway
+const wordBits = int((^big.Word(0))>>32&1+1) * 32
+
+var tzw func(big.Word) int
+
+func init() {
+	switch wordBits {
+	case 32:
+		tzw = func(w big.Word) int { return int(TrailingZeros32(uint32(w))) }
+	case 64:
+		tzw = func(w big.Word) int { return int(TrailingZeros64(uint64(w))) }
+	}
+}
+
+// TrailingZerosBig returns the number of trailing 0 bits in v.
+//
+// If v is 0, it returns 0.
+func TrailingZerosBig(v *big.Int) int {
+	for i, b := range v.Bits() {
+		if b != 0 {
+			return i*wordBits + tzw(b)
+		}
+	}
+	return 0
+}
+
+// TrailingOnesBig returns the number of trailing 1 bits in v.
+func TrailingOnesBig(v *big.Int) int {
+	words := v.Bits()
+	for i, b := range words {
+		if b != ^big.Word(0) {
+			return i*wordBits + tzw(^b)
+		}
+	}
+	return len(words) * wordBits
 }
