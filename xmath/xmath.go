@@ -6,9 +6,10 @@ package xmath
 
 import "math/big"
 
-// ProductSerialTreshold is the recursion cutoff.
+// ProductSerialTreshold is a "knob" for tuning Product() performance.
 //
-// It can be tuned for best performance.
+// It represents a recursion cutoff.  Higher numbers stop recursion earlier,
+// lower numbers let recursion proceed a little longer.
 var ProductSerialThreshold = 40
 
 // Product computes product of numbers in seq.
