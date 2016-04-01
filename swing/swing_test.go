@@ -36,7 +36,7 @@ func TestFunction(t *testing.T) {
 	var f big.Int
 	for _, tc := range tcs {
 		if sf := swing.SwingingFactorial(&f, tc.n).String(); sf != tc.s {
-			t.Error("wrong swinging factorial for %d. Expected %s, got %s:",
+			t.Errorf("wrong swinging factorial for %d. Expected %s, got %s:",
 				tc.n, tc.s, sf)
 		}
 	}
@@ -47,7 +47,7 @@ func TestMethod(t *testing.T) {
 	var f big.Int
 	for _, tc := range tcs {
 		if sf := s.SwingingFactorial(&f, tc.n).String(); sf != tc.s {
-			t.Error("wrong swinging factorial for %d. Expected %s, got %s:",
+			t.Errorf("wrong swinging factorial for %d. Expected %s, got %s:",
 				tc.n, tc.s, sf)
 		}
 	}

@@ -12,7 +12,8 @@ func TestBinomial(t *testing.T) {
 	var b big.Int
 	for _, tc := range tcs {
 		if a := binomial.Binomial(&b, tc.n, tc.k).String(); a != tc.s {
-			t.Error("Binomial(%d, %d) expected %s, got %s", tc.n, tc.k, tc.s, a)
+			t.Errorf("Binomial(%d, %d) expected %s, got %s",
+				tc.n, tc.k, tc.s, a)
 		}
 	}
 }
@@ -22,7 +23,8 @@ func TestBinomialS(t *testing.T) {
 	var b big.Int
 	for _, tc := range tcs {
 		if a := binomial.BinomialS(&b, p, tc.n, tc.k).String(); a != tc.s {
-			t.Error("Binomial(%d, %d) expected %s, got %s", tc.n, tc.k, tc.s, a)
+			t.Errorf("Binomial(%d, %d) expected %s, got %s",
+				tc.n, tc.k, tc.s, a)
 		}
 	}
 }

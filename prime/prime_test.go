@@ -22,7 +22,7 @@ func TestMethods(t *testing.T) {
 func t100(t *testing.T, pg prime.Generator) {
 	if lim := pg.Limit(); lim < 100 {
 		t.Errorf("%s Limit() returned %d.  result >= 100 expected.",
-			reflect.TypeOf(pg))
+			reflect.TypeOf(pg), lim)
 	}
 	// Test boundary conditions and test results against known primes.
 	k100 := []uint64{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,

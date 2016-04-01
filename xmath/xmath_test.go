@@ -25,7 +25,7 @@ func init() {
 	for i := range s {
 		s[i] = uint64(rand.Int63())
 	}
-	// sort them, becuase sequences in practice are typically increasing.
+	// sort them, because sequences in practice are typically increasing.
 	sort.Sort(s)
 }
 
